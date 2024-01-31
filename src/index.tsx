@@ -217,7 +217,7 @@ function Root({
   }
 
   function onDrag(event: React.PointerEvent<HTMLDivElement>) {
-    if (isInput(event.target as HTMLElement)) return;
+    // if (isDragging && isInput(event.target as HTMLElement)) return;
     if (!drawerRef.current) {
       return;
     }
@@ -488,10 +488,13 @@ function Root({
   function onRelease(event: React.PointerEvent<HTMLDivElement>) {
     if (!isDragging || !drawerRef.current) return;
 
-    // if (isAllowedToDrag.current && isInput(event.target as HTMLElement)) {
-    //   // If we were just dragging, prevent focusing on inputs etc. on release
-    //   (event.target as HTMLInputElement).blur();
-    // }
+    if (isAllowedToDrag.current && isInput(event.target as HTMLElement)) {
+      // If we are dragging and the target is an input, blur it if it is clearly a drag by checking the distance
+      const distMoved = pointerStart.current - (isVertical(direction) ? event.screenY : event.screenX);
+      if (Math.abs(distMoved) > 10) {
+        (event.target as HTMLElement).blur();
+      }
+    }
     drawerRef.current.classList.remove(DRAG_CLASS);
     isAllowedToDrag.current = false;
     setIsDragging(false);
