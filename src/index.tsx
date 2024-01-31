@@ -139,7 +139,7 @@ function Root({
   function onPress(event: React.PointerEvent<HTMLDivElement>) {
     if (!dismissible && !snapPoints) return;
     const highlightedText = window.getSelection();
-    if (isInput(event.target as HTMLElement) && highlightedText?.toString().length > 0) {
+    if (isInput(event.target as HTMLElement)) {
       highlightedText?.removeAllRanges();
     }
     if (drawerRef.current && !drawerRef.current.contains(event.target as Node)) return;
