@@ -217,6 +217,7 @@ function Root({
   }
 
   function onDrag(event: React.PointerEvent<HTMLDivElement>) {
+    if (isInput(event.target as HTMLElement)) return;
     if (!drawerRef.current) {
       return;
     }
@@ -486,6 +487,7 @@ function Root({
 
   function onRelease(event: React.PointerEvent<HTMLDivElement>) {
     if (!isDragging || !drawerRef.current) return;
+
     // if (isAllowedToDrag.current && isInput(event.target as HTMLElement)) {
     //   // If we were just dragging, prevent focusing on inputs etc. on release
     //   (event.target as HTMLInputElement).blur();
